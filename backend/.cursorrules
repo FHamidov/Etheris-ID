@@ -1,0 +1,17 @@
+NodeJS express kullanan bir backend uygulaması
+MongoDB kullanılır
+Bir ekosistem için ilk account oluşturma sayfası
+/register /login ile hesapların yaratılması
+
+Örnek user tablosu
+{
+  "_id": ObjectId("..."),
+  "email": "user@example.com",
+  "phone": "+994501234567",
+  "password_hash": "hashed_password",
+  "full_name": "Fərid X",
+  "profile_picture": "https://example.com/profiles/hashed_id/avatar.png",
+  "created_at": ISODate("2025-01-29T12:00:00Z"),
+  "updated_at": ISODate("2025-01-29T12:30:00Z"),
+  "verified": true
+}
