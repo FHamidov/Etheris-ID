@@ -1,4 +1,4 @@
-# API Test Examples
+# API Test Examples.
 
 ## Register Endpoint Test
 
