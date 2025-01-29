@@ -15,9 +15,7 @@ router.post('/register', async (req, res) => {
 
     if (existingUser) {
       return res.status(400).json({
-        message: 'User with this email or phone already exists',
-        mesaj: 'Bu e-posta veya telefon numarası ile kayıtlı kullanıcı mevcut',
-        mesaj_az: 'Bu email və ya telefon nömrəsi ilə istifadəçi artıq mövcuddur'
+        message: 'User with this email or phone already exists'
       });
     }
 
@@ -40,8 +38,6 @@ router.post('/register', async (req, res) => {
 
     res.status(201).json({
       message: 'User registered successfully',
-      mesaj: 'Kullanıcı başarıyla kaydedildi',
-      mesaj_az: 'İstifadəçi uğurla qeydiyyatdan keçdi',
       token,
       user: {
         id: user._id,
@@ -54,9 +50,7 @@ router.post('/register', async (req, res) => {
   } catch (error) {
     console.error('Register error:', error);
     res.status(500).json({
-      message: 'Registration failed',
-      mesaj: 'Kayıt işlemi başarısız',
-      mesaj_az: 'Qeydiyyat uğursuz oldu'
+      message: 'Registration failed'
     });
   }
 });
@@ -70,9 +64,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({
-        message: 'Invalid email or password',
-        mesaj: 'Geçersiz e-posta veya şifre',
-        mesaj_az: 'Yanlış email və ya şifrə'
+        message: 'Invalid email or password'
       });
     }
 
@@ -80,9 +72,7 @@ router.post('/login', async (req, res) => {
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: 'Invalid email or password',
-        mesaj: 'Geçersiz e-posta veya şifre',
-        mesaj_az: 'Yanlış email və ya şifrə'
+        message: 'Invalid email or password'
       });
     }
 
@@ -95,8 +85,6 @@ router.post('/login', async (req, res) => {
 
     res.json({
       message: 'Login successful',
-      mesaj: 'Giriş başarılı',
-      mesaj_az: 'Giriş uğurlu oldu',
       token,
       user: {
         id: user._id,
@@ -109,9 +97,7 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({
-      message: 'Login failed',
-      mesaj: 'Giriş başarısız',
-      mesaj_az: 'Giriş uğursuz oldu'
+      message: 'Login failed'
     });
   }
 });
