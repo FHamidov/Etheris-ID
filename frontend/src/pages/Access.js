@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../services/api';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import logo from '../assets/logo.png';
 import './Pages.css';
 
@@ -19,6 +21,13 @@ const Access = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePhoneChange = (value) => {
+    setFormData({
+      ...formData,
+      phone: value,
     });
   };
 
@@ -65,13 +74,20 @@ const Access = () => {
             className="auth-input"
             required
           />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
+          <PhoneInput
+            country={'az'}
             value={formData.phone}
-            onChange={handleChange}
-            className="auth-input"
+            onChange={handlePhoneChange}
+            inputClass="auth-input"
+            containerClass="phone-input-container"
+            buttonClass="country-dropdown"
+            dropdownClass="country-dropdown-list"
+            enableSearch={true}
+            disableSearchIcon={true}
+            searchPlaceholder="Search country..."
+            placeholder="Phone Number"
+            disableDropdown={false}
+            countryCodeEditable={true}
             required
           />
           <input

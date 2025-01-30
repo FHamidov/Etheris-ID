@@ -79,7 +79,7 @@
   width: 50%;
   padding: 0.75rem 2rem;
   border: 2.5px solid #000000;
-  border-radius: 15px;
+  border-radius: 16px;
   background: transparent;
   color: #000000;
   font-size: 1.3rem;
@@ -119,6 +119,65 @@
   color: #000000;
   text-decoration: underline;
   font-weight: 500;
+}
+
+.phone-input-container {
+  width: 100%;
+}
+
+.phone-input-container .auth-input {
+  width: 100% !important;
+  height: auto !important;
+  padding: 1rem 1.25rem !important;
+  border: 2px solid #000000 !important;
+  border-radius: 15px !important;
+  font-size: 1.1rem !important;
+  background: transparent !important;
+}
+
+/* Hide the flag button */
+.country-dropdown {
+  display: none !important;
+}
+
+/* Remove left padding since we removed the flag */
+.phone-input-container .auth-input {
+  padding-left: 1.25rem !important;
+}
+
+.country-dropdown-list {
+  max-height: 200px !important;
+  border: 2px solid #000000 !important;
+  border-radius: 15px !important;
+  margin-top: 5px !important;
+  background: white !important;
+}
+
+.country-dropdown-list .search {
+  padding: 10px !important;
+  margin: 0 !important;
+}
+
+.country-dropdown-list .search input {
+  width: 100% !important;
+  padding: 1rem 1.25rem !important;
+  border: 2px solid #000000 !important;
+  border-radius: 15px !important;
+  font-size: 1.1rem !important;
+  background: transparent !important;
+}
+
+.country-dropdown-list .country {
+  padding: 0.75rem 1.25rem !important;
+  font-size: 1.1rem !important;
+}
+
+.country-dropdown-list .country:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.country-dropdown-list .country.highlight {
+  background: rgba(0, 0, 0, 0.1) !important;
 }
 
 @media (max-width: 576px) {
