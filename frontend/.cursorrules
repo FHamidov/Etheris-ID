@@ -1,8 +1,9 @@
 Bu bir ekosistemin giriş uygulamasıdır.
-İlk olarak /login ve /register sayfalarını oluştur.
+İlk olarak /connect ve /access sayfalarını oluştur.
 react uygulamasını oluştur.
 backend ile bağlantı kur.
 Responsive tasarım olmalı.
+Resimde örnek buton falan yapısı verilmişdir
 backend hakkında herşey:
 
 # EtherID Backend
