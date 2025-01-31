@@ -6,6 +6,7 @@ import 'react-phone-input-2/lib/style.css';
 import logo from '../assets/logo.png';
 import './Pages.css';
 
+
 const Access = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({

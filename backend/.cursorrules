@@ -3,15 +3,13 @@ MongoDB kullanılır
 Bir ekosistem için ilk account oluşturma sayfası
 /register /login ile hesapların yaratılması
 
-Örnek user tablosu
-{
-  "_id": ObjectId("..."),
-  "email": "user@example.com",
-  "phone": "+994501234567",
-  "password_hash": "hashed_password",
-  "full_name": "Fərid X",
-  "profile_picture": "https://example.com/profiles/hashed_id/avatar.png",
-  "created_at": ISODate("2025-01-29T12:00:00Z"),
-  "updated_at": ISODate("2025-01-29T12:30:00Z"),
-  "verified": true
-}
+const userSchema = new mongoose.Schema({
+    device_id: { type: String, unique: true, required: true }, // Cihazın unikal ID-si
+    full_name: { type: String, required: true }, // Tam ad
+    password_hash: { type: String, required: true }, // Şifrə (hash olunmuş)
+    profile_picture: { type: String, default: null }, // Profil şəkli (URL)
+    verified: { type: Boolean, default: false }, // Hesabın doğrulanma statusu
+    phone_number: { type: String, unique: true, sparse: true }, // 2FA üçün opsional nömrə
+    created_at: { type: Date, default: Date.now }, // Hesab yaradılma tarixi
+    last_login: { type: Date, default: null } // Son giriş tarixi
+});

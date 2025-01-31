@@ -3,26 +3,18 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  email: {
+  device_id: {
     type: String,
-    required: [true, 'Email is required'],
     unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
-  },
-  phone: {
-    type: String,
-    required: [true, 'Phone number is required'],
-    unique: true
-  },
-  password_hash: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 8
+    required: [true, 'Device ID is required']
   },
   full_name: {
     type: String,
     required: [true, 'Full name is required']
+  },
+  password_hash: {
+    type: String,
+    required: [true, 'Password hash is required']
   },
   profile_picture: {
     type: String,
@@ -31,6 +23,19 @@ const userSchema = new mongoose.Schema({
   verified: {
     type: Boolean,
     default: false
+  },
+  phone_number: {
+    type: String,
+    unique: true,
+    sparse: true // Allows multiple null values
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  last_login: {
+    type: Date,
+    default: null
   }
 }, {
   timestamps: {
@@ -39,12 +44,9 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hash password before saving
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password_hash')) return next();
-  this.password_hash = await bcrypt.hash(this.password_hash, 12);
-  next();
-});
+// Index for faster queries
+userSchema.index({ device_id: 1 });
+userSchema.index({ phone_number: 1 }, { sparse: true });
 
 // Compare password method
 userSchema.methods.comparePassword = async function(candidatePassword) {

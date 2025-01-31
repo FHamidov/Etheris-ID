@@ -14,7 +14,7 @@ app.use(express.json());
 app.use('/api', authRoutes);
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/etherid')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/etheris')
   .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
 

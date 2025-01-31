@@ -1,14 +1,14 @@
 # EtherID Backend
 
-A Node.js backend application for user authentication and account management system.
+A Node.js backend application for device-based authentication and account management system.
 
 ## Features
 
-- User registration and authentication
-- JWT-based authentication
+- Device-based user registration and authentication
+- JWT-based authentication with 30-day expiration
 - MongoDB database integration
-- Secure password hashing
-- Phone number and email validation
+- Secure password hashing with bcrypt
+- Optional phone number for 2FA
 - RESTful API endpoints
 
 ## Tech Stack
@@ -67,29 +67,33 @@ npm start
 - **Request Body**:
 ```json
 {
-  "email": "user@example.com",
-  "phone": "+994501234567",
+  "device_id": "unique-device-id-123",
+  "full_name": "John Doe",
   "password": "SecurePass123!",
-  "full_name": "John Doe"
+  "profile_picture": "https://example.com/photo.jpg",
+  "phone_number": "+905551234567"
 }
 ```
 - **Success Response** (201 Created):
 ```json
 {
-  "message": "User registered successfully",
+  "message": "Registration successful",
+  "status": "success",
   "token": "jwt_token_here",
   "user": {
-    "id": "user_id",
-    "email": "user@example.com",
+    "device_id": "unique-device-id-123",
     "full_name": "John Doe",
-    "phone": "+994501234567"
+    "profile_picture": "https://example.com/photo.jpg",
+    "verified": false,
+    "created_at": "2024-01-30T12:00:00.000Z"
   }
 }
 ```
 - **Error Response** (400 Bad Request):
 ```json
 {
-  "message": "User with this email or phone already exists"
+  "message": "Device ID already registered",
+  "status": "error"
 }
 ```
 
@@ -100,7 +104,7 @@ npm start
 - **Request Body**:
 ```json
 {
-  "email": "user@example.com",
+  "device_id": "unique-device-id-123",
   "password": "SecurePass123!"
 }
 ```
@@ -108,19 +112,22 @@ npm start
 ```json
 {
   "message": "Login successful",
+  "status": "success",
   "token": "jwt_token_here",
   "user": {
-    "id": "user_id",
-    "email": "user@example.com",
+    "device_id": "unique-device-id-123",
     "full_name": "John Doe",
-    "phone": "+994501234567"
+    "profile_picture": "https://example.com/photo.jpg",
+    "verified": false,
+    "last_login": "2024-01-30T12:00:00.000Z"
   }
 }
 ```
 - **Error Response** (401 Unauthorized):
 ```json
 {
-  "message": "Invalid email or password"
+  "message": "Invalid device ID or password",
+  "status": "error"
 }
 ```
 
@@ -129,21 +136,16 @@ npm start
 ### User Model
 ```javascript
 {
-  email: {
+  device_id: {
     type: String,
-    required: true,
-    unique: true
-  },
-  phone: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password_hash: {
-    type: String,
+    unique: true,
     required: true
   },
   full_name: {
+    type: String,
+    required: true
+  },
+  password_hash: {
     type: String,
     required: true
   },
@@ -155,34 +157,53 @@ npm start
     type: Boolean,
     default: false
   },
-  created_at: Date,
-  updated_at: Date
+  phone_number: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  last_login: {
+    type: Date,
+    default: null
+  }
 }
 ```
 
 ## Security Features
 
+- Device-based authentication
 - Password hashing using bcrypt
-- JWT-based authentication
-- Input validation and sanitization
+- JWT with 30-day expiration
+- Optional 2FA with phone number
 - CORS protection
 - Environment variables for sensitive data
 
 ## Error Handling
 
 The API includes comprehensive error handling for:
-- Invalid credentials
-- Duplicate email/phone registration
+- Invalid device ID or password
+- Duplicate device registration
 - Server errors
 - Validation errors
 
 ## Testing
 
-You can find example test cases in the `test-examples.md` file. These include:
-- Registration test cases
-- Login test cases
-- Error case examples
-- Sample test user data
+Run the tests using:
+```bash
+npm test
+```
+
+Test cases include:
+- Registration validation
+- Login authentication
+- Device ID uniqueness
+- Password hashing
+- JWT token generation
+- Error handling
 
 ## Development
 
@@ -199,7 +220,6 @@ For production deployment:
 3. Configure proper MongoDB connection
 4. Run with process manager (e.g., PM2):
 ```bash
-npm install -g pm2
 pm2 start index.js
 ```
 
