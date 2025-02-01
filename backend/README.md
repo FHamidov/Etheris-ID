@@ -173,7 +173,7 @@ npm start
 }
 ```
 
-## Security Features.
+## Security Features..
 - Device-based authentication
 - Password hashing using bcrypt
 - JWT with 30-day expiration
