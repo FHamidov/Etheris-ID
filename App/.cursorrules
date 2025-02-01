@@ -1,0 +1,129 @@
+Flutter ile yapılan bu proje ekosistemin ilk uygulamasıdır.
+
+Proje içerisinde kullanılacak olan teknolojiler:
+- Flutter
+- Http Api
+
+Uygulamanın tasarımı oldukça basit olacak. 
+Verdiğim resimleri dikkate alarak tasarım yapılacak.
+
+Bu hesap sisteminde cihazın benzersiz kodu ile hesap oluşturulacak.
+eğer mevcut hesap varsa giriş yapılacak yoksa hesap oluşturulacak.
+Api hakkında bilgiler:
+
+## API Documentation
+
+### Authentication Endpoints
+
+#### Register User
+- **URL**: `/api/register`
+- **Method**: `POST`
+- **Content-Type**: `application/json`
+- **Request Body**:
+```json
+{
+  "device_id": "unique-device-id-123",
+  "full_name": "John Doe",
+  "password": "SecurePass123!",
+  "profile_picture": "https://example.com/photo.jpg",
+  "phone_number": "+905551234567"
+}
+```
+- **Success Response** (201 Created):
+```json
+{
+  "message": "Registration successful",
+  "status": "success",
+  "token": "jwt_token_here",
+  "user": {
+    "device_id": "unique-device-id-123",
+    "full_name": "John Doe",
+    "profile_picture": "https://example.com/photo.jpg",
+    "verified": false,
+    "created_at": "2024-01-30T12:00:00.000Z"
+  }
+}
+```
+- **Error Response** (400 Bad Request):
+```json
+{
+  "message": "Device ID already registered",
+  "status": "error"
+}
+```
+
+#### Login User
+- **URL**: `/api/login`
+- **Method**: `POST`
+- **Content-Type**: `application/json`
+- **Request Body**:
+```json
+{
+  "device_id": "unique-device-id-123",
+  "password": "SecurePass123!"
+}
+```
+- **Success Response** (200 OK):
+```json
+{
+  "message": "Login successful",
+  "status": "success",
+  "token": "jwt_token_here",
+  "user": {
+    "device_id": "unique-device-id-123",
+    "full_name": "John Doe",
+    "profile_picture": "https://example.com/photo.jpg",
+    "verified": false,
+    "last_login": "2024-01-30T12:00:00.000Z"
+  }
+}
+```
+- **Error Response** (401 Unauthorized):
+```json
+{
+  "message": "Invalid device ID or password",
+  "status": "error"
+}
+```
+
+## Database Schema
+
+### User Model
+```javascript
+{
+  device_id: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  full_name: {
+    type: String,
+    required: true
+  },
+  password_hash: {
+    type: String,
+    required: true
+  },
+  profile_picture: {
+    type: String,
+    default: null
+  },
+  verified: {
+    type: Boolean,
+    default: false
+  },
+  phone_number: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  last_login: {
+    type: Date,
+    default: null
+  }
+}
+```
